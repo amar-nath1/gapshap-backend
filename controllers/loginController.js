@@ -7,6 +7,7 @@ const crypto = require('crypto');
 require('dotenv').config();
 const loginUser = async (req, res) => {
   const { username, email, password } = req.body;
+  console.log(req.body,'boddya')
 
   try {
     // Check if the user already exists
@@ -26,7 +27,7 @@ const loginUser = async (req, res) => {
     
     }
     else {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(200).json({ message: 'User not found' });
     }
   } catch (err) {
     res.status(500).json({ error: 'Internal bhak server error' });

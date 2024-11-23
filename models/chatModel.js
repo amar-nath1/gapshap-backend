@@ -8,11 +8,21 @@ const Chat = {
       'INSERT INTO messages (email, message) VALUES (?, ?)',
       [email, message]
     );
-    return results.insertId;
+
+    // Retrieve the inserted row
+  const [selectResult] = await db.query(
+  'SELECT * FROM messages WHERE id = ?',
+  [results.insertId]
+);
+
+    return selectResult[0];
   },
 
-  getMessages: async () => {
-    const [results] = await db.query('SELECT * FROM messages ORDER BY created_at DESC');
+  getMessages: async (skip) => {
+    // const limit = 100; 
+    const offset = skip || 0;
+    const [results] = await db.query(`SELECT * FROM messages ORDER BY created_at ASC`);
+    console.log(results,'results')
     return results;
   }
 };

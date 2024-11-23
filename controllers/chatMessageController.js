@@ -16,8 +16,9 @@ require('dotenv').config();
         return res.status(400).json({ error: 'User ID and message are required' });
       }
   
-      const messageId = await Chat.saveMessage(email, message);
-      res.status(201).json({ message: 'Message saved successfully', messageId });
+      const messageObj = await Chat.saveMessage(email, message);
+      
+      res.status(201).json({ message: 'Message saved successfully', messageObj });
     } catch (err) {
       res.status(500).json({ error: 'Internal server error' });
     }
@@ -25,7 +26,8 @@ require('dotenv').config();
   
   const getMessages = async (req, res) => {
     try {
-      const messages = await Chat.getMessages();
+      const skip = parseInt(req.query.skip);
+      const messages = await Chat.getMessages(skip);
       res.status(200).json(messages);
     } catch (err) {
       res.status(500).json({ error: 'Internal server error' });
